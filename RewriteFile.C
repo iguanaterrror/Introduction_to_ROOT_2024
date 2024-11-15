@@ -4,7 +4,7 @@
 #include <vector>
 
 void RewriteFile(std::string filename = "Cs-137.dat", std::string newFilename = "Cs-137.bin"){
-
+    // Otwieranue pliku
     std::ifstream file(filename);
     if(!file.is_open()){
         std::cerr << "File not found" << std::endl;
@@ -14,6 +14,7 @@ void RewriteFile(std::string filename = "Cs-137.dat", std::string newFilename = 
         std::cout << "File opened" << std::endl;
     }
 
+    // Tworzenie nowego pliku
     std::ofstream newFile(newFilename, std::ios::binary | std::ios::out);
     if(!newFile.is_open()){
         std::cerr << "File not created" << std::endl;
@@ -23,7 +24,7 @@ void RewriteFile(std::string filename = "Cs-137.dat", std::string newFilename = 
         std::cout << "File created" << std::endl;
     }
 
-    
+    // Zapisywanie danych do nowego pliku
     double a;
     while(file >> a){
         newFile.write((char*)&a, sizeof(double));
@@ -34,6 +35,7 @@ void RewriteFile(std::string filename = "Cs-137.dat", std::string newFilename = 
 
     std::cout << "File rewritten" << std::endl;
     
+    // Sprawdzanie zawartości nowego pliku
     std::ifstream newFileCheck(newFilename);
     if(!newFileCheck.is_open()){
         std::cerr << "File not found" << std::endl;
@@ -51,6 +53,5 @@ void RewriteFile(std::string filename = "Cs-137.dat", std::string newFilename = 
     newFileCheck.close();
 
     std::cout << "File checked" << std::endl;
-
 
 }

@@ -9,6 +9,7 @@
 #include <TStyle.h>
 
 void WidmoCsBin(std::string filename = "Cs-137.bin"){
+    // Otwieranie pliku
     std::ifstream file(filename, std::ios::in | std::ios::binary);
     if(!file.is_open()){
         std::cerr << "File not found" << std::endl;
@@ -21,7 +22,7 @@ void WidmoCsBin(std::string filename = "Cs-137.bin"){
     std::vector<double> y;
     double value;
 
-    // Odczytuj dane z pliku binarnego
+    // Odczytanie danych z pliku binarnego
     while (file.read(reinterpret_cast<char*>(&value), sizeof(value))) {
         y.push_back(value);
         std::cout << value << std::endl;  
@@ -29,6 +30,7 @@ void WidmoCsBin(std::string filename = "Cs-137.bin"){
 
     file.close();
 
+    // Tworzenie histogramu
     TH1F *hist = new TH1F("hist", "Widmo Cs-137", 1024, 0, 2000);
     for(int i = 0; i < y.size(); i++){
         hist->SetBinContent(i + 1, y[i]);
@@ -53,7 +55,9 @@ void WidmoCsBin(std::string filename = "Cs-137.bin"){
     hist->GetXaxis()->SetRangeUser(0, 1024);
     hist->GetYaxis()->SetRangeUser(0, 1700);
 
-    c1->cd();  // Make sure we are in the right canvas
+    c1->cd();  
+
+    // Dodanie linii i etykiet
     TLine *l1 = new TLine(511, 0, 511, 1250);
     l1->SetLineColor(kRed);
     l1->SetLineWidth(2);
@@ -76,11 +80,14 @@ void WidmoCsBin(std::string filename = "Cs-137.bin"){
     label2->SetTextSize(0.02);
     label2->Draw();
 
+    // Zapisywanie histogramu i canvasu
     c1->SetGrid();
     c1->Update();
     c1->Draw();
-    c1->SaveAs("Canvas_WidmoCs.root");
-    hist->SaveAs("Hist_WidmoCs.root");
+    c1->SaveAs("Canvas_WidmoCsBin.root");
+    hist->SaveAs("Hist_WidmoCsBin.root");
     std::cout << "File saved" << std::endl;
-    return;
+    
+    delete c1;
+    delete hist;
 }

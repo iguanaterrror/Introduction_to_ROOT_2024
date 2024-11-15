@@ -9,6 +9,7 @@
 #include <TStyle.h>
 
 void WidmoCs(std::string filename = "Cs-137.dat"){
+    // Otwieranie pliku
     std::ifstream file(filename);
     if(!file.is_open()){
         std::cerr << "File not found" << std::endl;
@@ -18,6 +19,7 @@ void WidmoCs(std::string filename = "Cs-137.dat"){
         std::cout << "File opened" << std::endl;
     }
 
+    // Wczytywanie danych z pliku
     std::vector<double> y;
     double a;
     while(file >> a){
@@ -27,15 +29,19 @@ void WidmoCs(std::string filename = "Cs-137.dat"){
 
     file.close();
 
+
+    // Tworzenie histogramu
     TH1F *hist = new TH1F("hist", "Widmo Cs-137", 1024, 0, 2000);
     for(int i = 0; i < y.size(); i++){
         hist->SetBinContent(i + 1, y[i]);
     }
 
+    // Ustawianie błędów
     for(int i = 1; i <= hist->GetNbinsX(); i++){
         hist->SetBinError(i, sqrt(hist->GetBinContent(i)));
     }
 
+    // Tworzenie canvasu
     TCanvas *c1 = new TCanvas("c1", "Widmo Cs-137", 800, 600);
 
     gStyle->SetOptStat(0);
@@ -51,7 +57,9 @@ void WidmoCs(std::string filename = "Cs-137.dat"){
     hist->GetXaxis()->SetRangeUser(0, 1024);
     hist->GetYaxis()->SetRangeUser(0, 1700);
 
-    c1->cd();  // Make sure we are in the right canvas
+    c1->cd();  
+
+    // Rysowanie linii
     TLine *l1 = new TLine(511, 0, 511, 1250);
     l1->SetLineColor(kRed);
     l1->SetLineWidth(2);
@@ -64,6 +72,7 @@ void WidmoCs(std::string filename = "Cs-137.dat"){
     l2->SetLineStyle(2);
     l2->Draw("same");
 
+    // Dodawanie etykiet
     TText *label1 = new TText(240+80, 1220, "662 keV - photopeak");
     label1->SetTextColor(kRed);
     label1->SetTextSize(0.02);
@@ -75,10 +84,14 @@ void WidmoCs(std::string filename = "Cs-137.dat"){
     label2->Draw();
 
     c1->SetGrid();
+
+    // Zapisywanie do pliku
     c1->Update();
     c1->Draw();
     c1->SaveAs("Canvas_WidmoCs.root");
     hist->SaveAs("Hist_WidmoCs.root");
     std::cout << "File saved" << std::endl;
-    return;
+    
+    delete c1;
+    delete hist;
 }
