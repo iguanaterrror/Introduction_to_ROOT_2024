@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "WidmoCs.C": "cpp"
+        "WidmoCs.C": "cpp",
+        "WidmoCsBin.C": "cpp",
+        "RewriteFile.C": "cpp",
+        "HistogramStack.C": "cpp"
     }
 }

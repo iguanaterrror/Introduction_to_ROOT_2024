@@ -8,8 +8,8 @@
 #include <TAxis.h>
 #include <TStyle.h>
 
-void WidmoCs(std::string filename = "Cs-137.dat"){
-    std::ifstream file(filename);
+void WidmoCsBin(std::string filename = "Cs-137.bin"){
+    std::ifstream file(filename, std::ios::in | std::ios::binary);
     if(!file.is_open()){
         std::cerr << "File not found" << std::endl;
         return;
@@ -19,10 +19,12 @@ void WidmoCs(std::string filename = "Cs-137.dat"){
     }
 
     std::vector<double> y;
-    double a;
-    while(file >> a){
-        y.push_back(a);
-        std::cout << a << std::endl;
+    double value;
+
+    // Odczytuj dane z pliku binarnego
+    while (file.read(reinterpret_cast<char*>(&value), sizeof(value))) {
+        y.push_back(value);
+        std::cout << value << std::endl;  
     }
 
     file.close();
