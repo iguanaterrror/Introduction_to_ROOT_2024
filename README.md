@@ -2,7 +2,7 @@
 
 ## How to download
 >git clone https://github.com/iguanaterrror/Introduction_to_ROOT_2024.git
-cd Introduction_to_ROOT_2024
+>cd Introduction_to_ROOT_2024
 
 ## Prerequiremnts
 You must have installed [ROOT Framework](https://root.cern/install/)
