@@ -33,15 +33,21 @@ Reads the tree from mySignal program and creates histograms for energy, detectio
 
 
 ## How to run
+### Running a ROOT macro
 First you need to start ROOT by typing
->root
-then
->.x macroname.C
+'''sh
+root
+,,,
+then run a macro using
+'''sh
+.x macroname.C
+'''
 replace _macroname_ with the name of the macro you want to run
 
-# mySignal works diffrent
->root
->.L mySignal.C;
->saveSignal();
-then
->.x readTree.C;
+### running _mySignal_
+'''sh
+root 
+.L mySignal.C; // Load the script
+saveSignal(); // Call the function to process data
+.x readTree.C; // Read the tree
+'''
